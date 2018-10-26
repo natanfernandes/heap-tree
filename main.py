@@ -1,42 +1,46 @@
-class Tree(object):
-	"""docstring for Tree"""
-	def __init__(self):
-		self.vector = []
-	
-	def calc_filho_dir(self,i):
-		filho_dir = int((2*i)+2)
-		return filho_dir
+class Tree:
+    def __init__(self):
+        self.data = [15, 30, 45, 16]
 
-	def calc_filho_esq(self,i):
-		filho_esq = int((2*i)+1)
-		return filho_esq
-
-	def calc_pai(self,i):
-		pai = int((i-1)/2)
-		return pai
-
-	def inserir(self,Node):
-		self.vector.append(Node)
-		
-	def imprimir(self):
-		for node in self.vector:
-			print(node)
-			
-	def subir(self,node):
-		pos_pai_node = self.calc_pai(self.vector.index(node))
-		if self.vector[pos_pai_node]> node:
-			aux = self.vector[pos_pai_node]
-			self.vector[pos_pai_node] = node
-			node = aux
-		else:
-			print('node filho maior que o pai')
-			return
-
-tree = Tree()
+    def subir(self, indice):
+        if(self.data[indice] == None):
+            return
+        indice_pai = round((indice-1)/2)
+        if(self.data[indice_pai] > self.data[indice]):
+            self.data[indice_pai], self.data[indice] = self.data[indice], self.data[indice_pai]
+            self.subir(indice_pai)
 
 
-tree.inserir(10)
-tree.inserir(25)
-tree.imprimir()
-tree.subir(25)
-tree.imprimir()
+    def descer(self, indice):
+        if(self.data[indice] == None):
+            return
+        indice_filho = 2*indice+1
+        if(self.data[indice_pai] > self.data[indice]):
+            self.data[indice_pai], self.data[indice] = self.data[indice], self.data[indice_pai]
+            self.descer(indice_filho)
+
+
+    def heapify(self):
+        filho_atual = indice
+        while(self.data[filho_atual] != None):
+            filho_atual = 2*filho_atual+2
+        folha = round((filho_atual-1)/2)
+        indice_pai = round((folha-1)/2)
+
+        self.descer(indice_pai)
+
+    def pop(self, indice):
+        filho_atual = indice
+        while(self.data[filho_atual] != None):
+            filho_atual = 2*filho_atual+1
+        folha = round((filho_atual-1)/2)
+        self.data[indice] = self.data[folha]
+        self.data[folha] = None
+
+    def __str__(self):
+        return str(self.data)
+       
+
+t = Tree()
+t.subir(3)
+print(t)
